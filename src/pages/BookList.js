@@ -2,11 +2,11 @@ import React, {PropTypes} from 'react'
 
 import HomeLayout from '../layouts/HomeLayout'
 
-class UserList extends React.Component {
+class BookList extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            userList: []
+            bookList: []
         };
     }
 
@@ -15,70 +15,71 @@ class UserList extends React.Component {
     };
 
     componentWillMount() {
-        fetch('http://localhost:3000/user')
+        fetch('http://localhost:3000/book')
             .then(res => res.json())
             .then(res => {
-                this.setState({userList: res});
+                this.setState({bookList: res});
             });
     }
 
-    handleEdit (user) {
-        this.context.router.push('/user/edit/' + user.id);
+    handleEdit (book) {
+        this.context.router.push('/book/edit/' + book.id);
     }
 
-    handleDel (user){
-        const confirmed = confirm(`确定要删除用户 ${user.name} 吗？`);
+    handleDel (book){
+        const confirmed = confirm(`确定要删除图书 ${book.name} 吗？`);
+
 
         if (confirmed) {
-            fetch('http://localhost:3000/user/' + user.id, {
+            fetch('http://localhost:3000/book/' + book.id, {
                 method: 'delete'
             })
                 .then(res => res.json())
                 .then(res => {
                     this.setState({
-                        userList: this.state.userList.filter(item => item.id !== user.id)
+                        bookList: this.state.bookList.filter(item => item.id !== book.id)
                     });
-                    alert('删除用户成功')
+                    alert('删除图书成功')
                 })
                 .catch(err => {
                     console.error(err);
-                    alert('删除用户失败！')
+                    alert('删除图书失败！')
                 })
         }
     }
 
     render() {
-        const {userList} = this.state;
+        const {bookList} = this.state;
 
         return (
-            <HomeLayout title='用户列表'>
+            <HomeLayout title='图书列表'>
                 <table>
                     <thead>
                         <tr>
-                            <th>用户ID</th>
-                            <th>用户名</th>
-                            <th>性别</th>
-                            <th>年龄</th>
+                            <th>图书ID</th>
+                            <th>图书名</th>
+                            <th>价格</th>
+                            <th>作者</th>
                             <th>操作</th>
                         </tr>
                     </thead>
 
                     <tbody>
-                        {userList.map((user) => {
+                        {bookList.map((book) => {
                             return (
-                                <tr key={user.id}>
-                                    <td>{user.id}</td>
-                                    <td>{user.name}</td>
-                                    <td>{user.gender}</td>
-                                    <td>{user.age}</td>
+                                <tr key={book.id}>
+                                    <td>{book.id}</td>
+                                    <td>{book.name}</td>
+                                    <td>{book.price}</td>
+                                    <td>{book.owner_id}</td>
                                     <td>
                                         <a href='javascript:void(0)'
-                                            onClick={this.handleEdit.bind(this, user)}>
+                                            onClick={this.handleEdit.bind(this, book)}>
                                             编辑
                                         </a>
                                         &nbsp;
                                         <a href='javascript:void(0)'
-                                            onClick={this.handleDel.bind(this, user)}>
+                                            onClick={this.handleDel.bind(this, book)}>
                                             删除
                                         </a>
                                     </td>
@@ -93,4 +94,4 @@ class UserList extends React.Component {
     }
 }
 
-export default UserList;
+export default BookList;
