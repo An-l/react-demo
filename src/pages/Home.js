@@ -1,20 +1,21 @@
 import React, { PropTypes } from 'react'
-import { Link } from 'react-router';
-
-import HomeLayout from '../layouts/HomeLayout'
+import style from '../styles/home-page.css'
 
 class Home extends React.Component {
     render () {
         return (
-            <HomeLayout title='Welcome'>
-                <Link to="/user/list">用户列表</Link>
-                <br/>
-                <Link to="/user/add">添加用户</Link>
-                <br/><hr/><br/>
-                <Link to="/book/list">图书列表</Link>
-                <br/>
-                <Link to="/book/add">添加图书</Link>
-            </HomeLayout>
+            <div className={style.welcome}>
+                Welcome
+            </div>
+            // <HomeLayout title='Welcome'>
+            //     <Link to="/user/list">用户列表</Link>
+            //     <br/>
+            //     <Link to="/user/add">添加用户</Link>
+            //     <br/><hr/><br/>
+            //     <Link to="/book/list">图书列表</Link>
+            //     <br/>
+            //     <Link to="/book/add">添加图书</Link>
+            // </HomeLayout>
         )
     }
 }

@@ -4,6 +4,8 @@ import formProvider from '../utils/formProvider'
 import FormItem from '../components/FormItem'
 import AutoComplete from './AotuComplete'
 
+import request, {get} from '../utils/request'
+
 class BookEditor extends React.Component {
     constructor (props) {
         super(props);
@@ -38,18 +40,11 @@ class BookEditor extends React.Component {
             method = 'put';
         }
 
-        fetch(apiUrl,{
-            method: method,
-            body: JSON.stringify({
-                name: name.value,
-                price: price.value,
-                owner_id: owner_id.value
-            }),
-            headers: {
-                'Content-Type': 'application/json'
-            }
+        request(method, apiUrl, {
+            name: name.value,
+            price: price.value,
+            owner_id: owner_id.value
         })
-            .then((res) => res.json())
             .then((res) => {
                 if(res.id) {
                     alert(editType + '图书成功');
@@ -64,8 +59,7 @@ class BookEditor extends React.Component {
     }
 
     getRecommendUsers (partialUserId) {
-        fetch('http://localhost:3000/user?id_like=' + partialUserId)
-            .then((res) => res.json())
+        get('http://localhost:3000/user?id_like=' + partialUserId)
             .then((res) => {
                 if (res) {
                     if (res.length === 1 && (res[0].id+'') === partialUserId) {

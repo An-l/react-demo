@@ -1,6 +1,6 @@
 import React, {PropTypes} from 'react'
 
-import HomeLayout from '../layouts/HomeLayout'
+import request, {get, del} from '../utils/request'
 
 class BookList extends React.Component {
     constructor(props) {
@@ -15,8 +15,7 @@ class BookList extends React.Component {
     };
 
     componentWillMount() {
-        fetch('http://localhost:3000/book')
-            .then(res => res.json())
+        get('http://localhost:3000/book')
             .then(res => {
                 this.setState({bookList: res});
             });
@@ -31,10 +30,7 @@ class BookList extends React.Component {
 
 
         if (confirmed) {
-            fetch('http://localhost:3000/book/' + book.id, {
-                method: 'delete'
-            })
-                .then(res => res.json())
+            del('http://localhost:3000/book/' + book.id)
                 .then(res => {
                     this.setState({
                         bookList: this.state.bookList.filter(item => item.id !== book.id)
@@ -52,7 +48,6 @@ class BookList extends React.Component {
         const {bookList} = this.state;
 
         return (
-            <HomeLayout title='图书列表'>
                 <table>
                     <thead>
                         <tr>
@@ -89,7 +84,6 @@ class BookList extends React.Component {
 }
                     </tbody>
                 </table>
-            </HomeLayout>
         )
     }
 }

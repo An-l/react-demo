@@ -9,8 +9,8 @@ server.use(middlewares);
 
 server.post('/login', function (req, res, next) {
     res.header('Access-Control-Expose-Headers', 'access-token');
-    const {account, password} = req.body;
-    if (account === 'admin' && password === 'admin') {
+    const {userName, passWord} = req.body;
+    if (userName === 'admin' && passWord === 'admin') {
         res.header('access-token', Date.now());
         res.json(true);
     } else {
